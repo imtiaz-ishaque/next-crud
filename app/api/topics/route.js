@@ -12,5 +12,12 @@ export async function POST(request) {
 export async function GET() {
   await connectMongoDB();
   const topics = await Topic.find();
-  return NextResponse.json({ topics });
+  return NextResponse.json({ topics }, { status: 200 });
+}
+
+export async function DELETE(request) {
+  const id = request.nextUrl.searchParams.get("id");
+  await connectMongoDB();
+  await Topic.findByIdAndDelete(id);
+  return NextResponse.json({ message: "Topic Deleted." }, { status: 200 });
 }
