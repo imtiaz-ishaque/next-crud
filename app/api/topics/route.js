@@ -14,10 +14,3 @@ export async function GET() {
   const topics = await Topic.find().sort({ createdAt: -1 });
   return NextResponse.json({ topics }, { status: 200 });
 }
-
-export async function DELETE(request) {
-  const id = request.nextUrl.searchParams.get("id");
-  await connectMongoDB();
-  await Topic.findByIdAndDelete(id);
-  return NextResponse.json({ message: "Topic Deleted." }, { status: 200 });
-}

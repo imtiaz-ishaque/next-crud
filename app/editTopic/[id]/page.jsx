@@ -1,21 +1,20 @@
-export default function EditTopic() {
-  return (
-    <>
-      <form className="flex flex-col gap-3">
-        <input
-          type="text"
-          className="border border-slate-500 px-6 py-3"
-          placeholder="Topic Title"
-        />
+import EditForm from "@/components/EditForm";
 
-        <input
-          type="text"
-          className="border border-slate-500 px-6 py-3"
-          placeholder="Topic Description"
-        />
+const getTopic = async (id) => {
+  const res = await fetch(process.env.NEXT_PUBLIC_API_URL + `/topics/${id}`, {
+    method: "GET",
+    cache: "no-store",
+  });
+  if (res.ok) {
+    return res.json();
+  } else {
+    throw new Error("Failed to fetch topic.");
+  }
+};
 
-        <button type="button" className="bg-green-500 text-white px-6 py-3 font-bold w-fit">Update Topic</button>
-      </form>
-    </>
-  );
+export default async function EditTopic({ params }) {
+  const { id } = params;
+  const { topic } = await getTopic(id);
+  const { title, description } = topic;
+  return <EditForm id={id} title={title} description={description} />;
 }

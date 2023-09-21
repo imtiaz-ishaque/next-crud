@@ -4,9 +4,9 @@ import RemoveBtn from "./RemoveBtn";
 
 const getTopics = async () => {
   try {
-    const res = await fetch(process.env.PUBLIC_API_URL + "/topics", {
-      //cache: "no-store",
-      next: { revalidate: 10 },
+    const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/topics", {
+      cache: "no-store",
+      //next: { revalidate: 10 },
     });
     if (!res.ok) {
       throw new Error("Failed fetching topics");
@@ -32,7 +32,7 @@ export default async function TopicList() {
           </div>
 
           <div className="flex gap-2">
-            <RemoveBtn />
+            <RemoveBtn id={t._id} />
             <Link href={`/editTopic/${t._id}`}>
               <HiPencilAlt size={24} />
             </Link>

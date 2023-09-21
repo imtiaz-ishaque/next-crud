@@ -16,3 +16,10 @@ export async function GET(request, { params }) {
   const topic = await Topic.findOne({ _id: id });
   return NextResponse.json({ topic }, { status: 200 });
 }
+
+export async function DELETE(request, { params }) {
+  const { id } = params;
+  await connectMongoDB();
+  await Topic.findByIdAndDelete(id);
+  return NextResponse.json({ message: "Topic Deleted." }, { status: 200 });
+}
